@@ -1,0 +1,42 @@
+{
+    "name": "php-aidc/label-printer",
+    "description": "Easily create and print labels on various label printers",
+    "keywords": [
+        "DirectProtocol", "Fingerprint", "TSPL", "TSPL2",
+        "Honeywell", "Intermec", "TSC",
+        "aidc", "pos", "wms", "barcode", "label", "print", "printer"
+    ],
+    "homepage": "https://github.com/php-aidc/label-printer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "JhaoDa",
+            "email": "jhaoda@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/php-aidc/label-printer/issues"
+    },
+    "require": {
+        "php": ">=7.1",
+        "ext-mbstring": "*",
+        "myclabs/php-enum": "^1.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpAidc\\LabelPrinter\\": "src/",
+            "PhpAidc\\LabelPrinter\\Tests\\Unit\\": "tests/Unit/"
+        }
+    },
+    "suggest": {
+        "ext-imagick": "Required to print unsupported image formats, PDF and text with custom fonts."
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true
+}
