@@ -24,7 +24,7 @@ trait Rotate
     public function rotate(Command $command)
     {
         /** @var Command|Rotatable $command */
-        if (! $command->getRotation()->equals(Angle::_0())) {
+        if (!$command->getRotation()->equals(Angle::_0())) {
             yield \sprintf('DIR %d', $command->getRotation()->getValue() + 1);
         }
     }
@@ -32,7 +32,7 @@ trait Rotate
     public function resetRotate(Command $command)
     {
         /** @var Command|Rotatable $command */
-        if (! $command->getRotation()->equals(Angle::_0())) {
+        if (!$command->getRotation()->equals(Angle::_0())) {
             yield 'DIR '.Fingerprint::DEFAULT_DIRECTION;
         }
     }
