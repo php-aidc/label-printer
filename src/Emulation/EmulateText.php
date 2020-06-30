@@ -35,8 +35,8 @@ trait EmulateText
             $command->getText(),
             $command->getFontName(),
             (float) $command->getFontSize(),
-            $command->getAnchor(),
             $command->getRotation(),
+            $command->getAnchor(),
             $command->isInverted(),
             $spacing
         );

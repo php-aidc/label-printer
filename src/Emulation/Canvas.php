@@ -36,8 +36,15 @@ final class Canvas
         $this->image = new \Imagick();
     }
 
-    public function write(string $text, string $font, float $size, ?Anchor $anchor, Angle $rotation, bool $inverted = false, ?int $spacing = null)
-    {
+    public function write(
+        string $text,
+        string $font,
+        float $size,
+        Angle $rotation,
+        ?Anchor $anchor,
+        bool $inverted = false,
+        ?int $spacing = null
+    ): void {
         $canvas = new \ImagickDraw();
 
         $canvas->setFont($font);
@@ -46,7 +53,7 @@ final class Canvas
 
         $canvas->setGravity($anchor ? $anchor->getValue() : \Imagick::GRAVITY_NORTHWEST);
 
-        if ($spacing) {
+        if ($spacing !== null) {
             $canvas->setTextInterLineSpacing($spacing);
         }
 

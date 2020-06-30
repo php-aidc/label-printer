@@ -41,11 +41,13 @@ final class FingerprintBarcode
         // TODO: ratio
         //yield \sprintf('BR %d,%d', $ratio['wide'], $ratio['narrow']);
 
-        if ($command->getMagnification() > Fingerprint::DEFAULT_BARCODE_MAGNIFICATION) {
+        $magnification = $command->getMagnification();
+
+        if ($magnification > 0 && $magnification !== Fingerprint::DEFAULT_BARCODE_MAGNIFICATION) {
             yield "BM {$command->getMagnification()}";
         }
 
-        if ($command->getHeight()) {
+        if ($command->getHeight() > 0) {
             yield \sprintf('BH %d', $command->getHeight());
         }
 
@@ -61,7 +63,7 @@ final class FingerprintBarcode
             yield \sprintf('BH %d', Fingerprint::DEFAULT_BARCODE_HEIGHT);
         }
 
-        if ($command->getMagnification() && $command->getMagnification() !== Fingerprint::DEFAULT_BARCODE_MAGNIFICATION) {
+        if ($magnification > 0 && $magnification !== Fingerprint::DEFAULT_BARCODE_MAGNIFICATION) {
             yield \sprintf('BM %d', Fingerprint::DEFAULT_BARCODE_MAGNIFICATION);
         }
 

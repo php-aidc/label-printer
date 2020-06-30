@@ -58,11 +58,6 @@ final class TsplTextBlock
 
         $format = "%d,%d,%d,%d,\"%s\",%d,{$specifier},{$specifier},0,%d,0,\"%s\"";
 
-        if ($command->getAnchor()) {
-            $placeholders[] = '%d';
-            $values[] = $command->getAnchor()->getValue();
-        }
-
         yield \vsprintf('BLOCK '.$format, [
             $command->getX(),
             $command->getY(),
