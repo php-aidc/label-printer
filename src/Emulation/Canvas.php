@@ -91,7 +91,7 @@ final class Canvas
 
         $this->image->drawImage($canvas);
 
-        if ($rotation) {
+        if ($rotation->getDegrees()) {
             $this->image->rotateImage($background, $rotation->getDegrees());
         }
     }
