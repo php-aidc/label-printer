@@ -34,7 +34,7 @@ final class Element
      */
     public static function raw($data): Raw
     {
-        return new Raw(...\func_get_args());
+        return new Raw($data);
     }
 
     /**
@@ -47,7 +47,7 @@ final class Element
      */
     public static function clear(?string $field = null): Clear
     {
-        return new Clear(...\func_get_args());
+        return new Clear($field);
     }
 
     public static function bitmap(int $x, int $y, \Imagick $canvas): Bitmap

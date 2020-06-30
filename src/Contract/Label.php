@@ -29,5 +29,5 @@ interface Label
 
     public function getCharset(): ?Charset;
 
-    public function getCommands(?string $language = null): iterable;
+    public function getCommands(string $language): iterable;
 }

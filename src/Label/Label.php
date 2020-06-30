@@ -92,7 +92,7 @@ final class Label implements LabelContract
         return $this->media['height'] ?? null;
     }
 
-    public function getCommands(?string $language = null): iterable
+    public function getCommands(string $language): iterable
     {
         foreach ($this->commands as $command) {
             if ($command instanceof Condition) {
