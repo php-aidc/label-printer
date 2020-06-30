@@ -1,0 +1,54 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [7.1, 7.2, 7.3, 7.4]
+        stability: [prefer-lowest, prefer-stable]
+    
+    name: PHP ${{ matrix.php }} / ${{ matrix.stability }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: intl, json, libxml, soap
+          coverage: xdebug
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies
+        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-suggest
+
+      - name: Execute tests
+        run: vendor/bin/phpunit --verbose --coverage-text --coverage-clover=coverage.clover
+
+      - name: Prepare code coverage
+        if: matrix.php == 7.4 && matrix.stability == 'prefer-stable'
+        uses: wei/wget@v1.1.1
+        with:
+          args: -q https://scrutinizer-ci.com/ocular.phar
+
+      - name: Code coverage
+        if: matrix.php == 7.4 && matrix.stability == 'prefer-stable'
+        run: php ocular.phar code-coverage:upload --format=php-clover coverage.clover
