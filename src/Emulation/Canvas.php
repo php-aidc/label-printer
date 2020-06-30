@@ -109,6 +109,13 @@ final class Canvas
     {
         $words = \preg_split('~\s~u', \trim($text), -1, \PREG_SPLIT_NO_EMPTY);
 
+        if (empty($words)) {
+            return [
+                $this->image->queryFontMetrics($canvas, $text)['textWidth'],
+                [$text],
+            ];
+        }
+
         $i = 1;
         $lines = [];
         $lineWidth = [];
