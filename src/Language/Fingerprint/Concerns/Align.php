@@ -24,7 +24,7 @@ trait Align
     public function align(Command $command)
     {
         /** @var Command|Alignable $command */
-        if ($command->getAnchor() && ! $command->getAnchor()->equals(Anchor::SOUTHWEST())) {
+        if ($command->getAnchor() && !$command->getAnchor()->equals(Anchor::SOUTHWEST())) {
             $anchor = $command->getAnchor()->getValue();
 
             $newAnchor = $anchor + 6;
@@ -40,7 +40,7 @@ trait Align
     public function resetAlign(Command $command)
     {
         /** @var Command|Alignable $command */
-        if ($command->getAnchor() && ! $command->getAnchor()->equals(Anchor::SOUTHWEST())) {
+        if ($command->getAnchor() && !$command->getAnchor()->equals(Anchor::SOUTHWEST())) {
             yield 'AN '.Fingerprint::DEFAULT_ANCHOR;
         }
     }

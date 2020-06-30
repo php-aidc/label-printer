@@ -51,7 +51,7 @@ final class ExternalImage implements Command
         }
 
         if ($data instanceof \SplFileInfo) {
-            if (! $data->isReadable()) {
+            if (!$data->isReadable()) {
                 throw new \RuntimeException();
             }
 
