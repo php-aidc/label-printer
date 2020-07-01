@@ -123,7 +123,7 @@ final class Canvas
         while(\count($words) > 0) {
             $metrics = $this->image->queryFontMetrics($canvas, \implode(' ', \array_slice($words, 0, $i)));
 
-            if ($metrics['textWidth'] > $this->width || \count($words) <= $i) {
+            if ($metrics['textWidth'] > $this->width || \count($words) < $i) {
                 $lineWidth[] = $metrics['textWidth'];
 
                 $lines[] = \implode(' ', \array_slice($words, 0, \max($i - 1, 1)));
