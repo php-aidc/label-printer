@@ -55,7 +55,11 @@ final class Tspl implements Language
 
     public function translatePrint(int $copies = 1): iterable
     {
-        yield "PRINT 1,{$copies}".self::EOC;
+        if ($copies > 0) {
+            yield "PRINT 1,{$copies}".self::EOC;
+        }
+
+        throw new \InvalidArgumentException('Number of copies must be greather than 0.');
     }
 
     public function translateCommand(Command $command): iterable
