@@ -21,6 +21,8 @@ interface Label extends Job
 {
     public function charset(Charset $value);
 
+    public function copies(int $copies);
+
     public function direction(Direction $value);
 
     public function add(Command $command);
@@ -28,6 +30,8 @@ interface Label extends Job
     public function getMedia(): array;
 
     public function getCharset(): ?Charset;
+
+    public function getCopies(): int;
 
     public function getCommands(string $language): iterable;
 }

@@ -126,6 +126,33 @@ $label = Label::create()
 ```
 Text will be drawn with Imagick and printed as bitmap.
 
+##### Specify the number of copies
+```php
+use PhpAidc\LabelPrinter\Label\Label;
+use PhpAidc\LabelPrinter\Label\Element;
+
+$label = Label::create()
+    ->add(Element::textLine(168, 95, 'Hello!', 'Univers', 8))
+    ->copies(3)
+;
+```
+
+##### Batch printing
+```php
+use PhpAidc\LabelPrinter\Printer;
+use PhpAidc\LabelPrinter\Label\Batch;
+use PhpAidc\LabelPrinter\Label\Label;
+use PhpAidc\LabelPrinter\Label\Element;
+use PhpAidc\LabelPrinter\Connector\NetworkConnector;
+
+$batch = (new Batch())
+    ->add(Label::create()->add(Element::textLine(168, 95, 'Hello!', 'Univers', 8)))
+    ->add(Label::create()->add(Element::textLine(168, 95, 'Bye!', 'Univers', 8)))
+;
+
+(new Printer(new NetworkConnector('192.168.x.x')))->print($label);
+```
+
 ## License
 
 The PhpAidc LabelPrinter is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
