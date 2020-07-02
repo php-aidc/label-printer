@@ -86,11 +86,11 @@ final class Fingerprint implements Language
 
     public function translatePrint(int $copies = 1): iterable
     {
-        if ($copies > 0) {
-            yield "PF {$copies}".self::EOC;
+        if ($copies <= 0) {
+            throw new \InvalidArgumentException('Number of copies must be greather than 0.');
         }
 
-        throw new \InvalidArgumentException('Number of copies must be greather than 0.');
+        yield "PF {$copies}".self::EOC;
     }
 
     private function translateCharset(?Charset $charset): iterable
