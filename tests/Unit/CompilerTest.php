@@ -50,7 +50,7 @@ class CompilerTest extends TestCase
 
 class LanguageA implements Language
 {
-    public function translateLabel(LabelContract $label): iterable
+    public function compileDeclaration(LabelContract $label): iterable
     {
         yield 'ASIZE|';
     }
@@ -60,12 +60,12 @@ class LanguageA implements Language
         return true;
     }
 
-    public function translateCommand(Command $command): iterable
+    public function compileCommand(Command $command): iterable
     {
         yield 'ACMD|';
     }
 
-    public function translatePrint(int $copies = 1): iterable
+    public function compilePrint(int $copies): iterable
     {
         yield 'APRINT|';
     }
@@ -73,7 +73,7 @@ class LanguageA implements Language
 
 class LanguageB implements Language
 {
-    public function translateLabel(LabelContract $label): iterable
+    public function compileDeclaration(LabelContract $label): iterable
     {
         yield 'BSIZE|';
     }
@@ -83,12 +83,12 @@ class LanguageB implements Language
         return true;
     }
 
-    public function translateCommand(Command $command): iterable
+    public function compileCommand(Command $command): iterable
     {
         yield 'BCMD|';
     }
 
-    public function translatePrint(int $copies = 1): iterable
+    public function compilePrint(int $copies): iterable
     {
         yield 'BPRINT|';
     }

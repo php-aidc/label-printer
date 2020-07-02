@@ -57,7 +57,7 @@ final class Fingerprint implements Language
         $this->density = $density;
     }
 
-    public function translateLabel(Label $label): iterable
+    public function compileDeclaration(Label $label): iterable
     {
         yield from $this->translateMedia($label->getMedia());
         yield from $this->translateCharset($label->getCharset());
@@ -68,7 +68,7 @@ final class Fingerprint implements Language
         return isset(self::HANDLERS[\get_class($command)]);
     }
 
-    public function translateCommand(Command $command): iterable
+    public function compileCommand(Command $command): iterable
     {
         if ($this->isSupport($command)) {
             $class = self::HANDLERS[\get_class($command)];
@@ -84,7 +84,7 @@ final class Fingerprint implements Language
         }
     }
 
-    public function translatePrint(int $copies = 1): iterable
+    public function compilePrint(int $copies): iterable
     {
         if ($copies <= 0) {
             throw new \InvalidArgumentException('Number of copies must be greather than 0.');

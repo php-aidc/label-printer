@@ -42,7 +42,7 @@ final class Tspl implements Language
         InternalImage::class => Handlers\TsplInternalImage::class,
     ];
 
-    public function translateLabel(Label $label): iterable
+    public function compileDeclaration(Label $label): iterable
     {
         yield from $this->translateMedia($label->getMedia());
         yield from $this->translateCharset($label->getCharset());
@@ -53,7 +53,7 @@ final class Tspl implements Language
         return isset(self::HANDLERS[\get_class($command)]);
     }
 
-    public function translatePrint(int $copies = 1): iterable
+    public function compilePrint(int $copies): iterable
     {
         if ($copies <= 0) {
             throw new \InvalidArgumentException('Number of copies must be greather than 0.');
@@ -62,7 +62,7 @@ final class Tspl implements Language
         yield "PRINT 1,{$copies}".self::EOC;
     }
 
-    public function translateCommand(Command $command): iterable
+    public function compileCommand(Command $command): iterable
     {
         if ($this->isSupport($command)) {
             $handler = self::HANDLERS[\get_class($command)];

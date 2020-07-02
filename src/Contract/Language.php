@@ -16,10 +16,11 @@ namespace PhpAidc\LabelPrinter\Contract;
 
 interface Language
 {
-    public function translateLabel(Label $label): iterable;
-
     public function isSupport(Command $command): bool;
-    public function translateCommand(Command $command): iterable;
 
-    public function translatePrint(int $copies = 1): iterable;
+    public function compileDeclaration(Label $label): iterable;
+
+    public function compileCommand(Command $command): iterable;
+
+    public function compilePrint(int $copies): iterable;
 }

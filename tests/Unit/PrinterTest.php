@@ -48,7 +48,7 @@ class PrinterTest extends TestCase
 
 class LanguageC implements Language
 {
-    public function translateLabel(LabelContract $label): iterable
+    public function compileDeclaration(LabelContract $label): iterable
     {
         yield 'CSIZE|';
     }
@@ -58,7 +58,7 @@ class LanguageC implements Language
         return true;
     }
 
-    public function translateCommand(Command $command): iterable
+    public function compileCommand(Command $command): iterable
     {
         if ($command instanceof Raw) {
             yield from (new LanguageCRawHandler())->translate($command);
@@ -67,7 +67,7 @@ class LanguageC implements Language
         }
     }
 
-    public function translatePrint(int $copies = 1): iterable
+    public function compilePrint(int $copies): iterable
     {
         yield 'CPRINT|';
     }

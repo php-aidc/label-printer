@@ -35,16 +35,16 @@ final class Compiler
     public function compile(Label $label, int $copies = 1): string
     {
         $instructions = [
-            $this->language->translateLabel($label),
+            $this->language->compileDeclaration($label),
         ];
 
         foreach ($label->getCommands(\get_class($this->language)) as $command) {
             if ($this->language->isSupport($command)) {
-                $instructions[] = $this->language->translateCommand($command);
+                $instructions[] = $this->language->compileCommand($command);
             }
         }
 
-        $instructions[] = $this->language->translatePrint($copies);
+        $instructions[] = $this->language->compilePrint($copies);
 
         $payload = \array_reduce($instructions, static function ($carry, $item) {
             return $item instanceof \Generator
