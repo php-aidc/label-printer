@@ -17,7 +17,7 @@ namespace PhpAidc\LabelPrinter\Contract;
 use PhpAidc\LabelPrinter\Enum\Charset;
 use PhpAidc\LabelPrinter\Enum\Direction;
 
-interface Label
+interface Label extends Job
 {
     public function charset(Charset $value);
 

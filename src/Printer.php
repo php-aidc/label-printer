@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace PhpAidc\LabelPrinter;
 
-use PhpAidc\LabelPrinter\Contract\Label;
+use PhpAidc\LabelPrinter\Contract\Job;
 use PhpAidc\LabelPrinter\Contract\Connector;
 
 final class Printer
@@ -31,13 +31,13 @@ final class Printer
         $this->compiler = $compiler;
     }
 
-    public function print(Label $label, int $copies = 1): void
+    public function print(Job $job): void
     {
         if ($this->compiler === null) {
             throw new \DomainException();
         }
 
-        $this->connector->write($this->compiler->compile($label, $copies));
+        $this->connector->write($this->compiler->compile($job));
     }
 
     public function send($payload): void

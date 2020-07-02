@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace PhpAidc\LabelPrinter;
 
+use PhpAidc\LabelPrinter\Label\Batch;
+use PhpAidc\LabelPrinter\Contract\Job;
 use PhpAidc\LabelPrinter\Contract\Label;
 use PhpAidc\LabelPrinter\Contract\Language;
 
@@ -32,19 +34,17 @@ final class Compiler
         $this->language = $language;
     }
 
-    public function compile(Label $label, int $copies = 1): string
+    public function compile(Job $job): string
     {
-        $instructions = [
-            $this->language->compileDeclaration($label),
-        ];
+        $instructions = [];
 
-        foreach ($label->getCommands(\get_class($this->language)) as $command) {
-            if ($this->language->isSupport($command)) {
-                $instructions[] = $this->language->compileCommand($command);
-            }
+        if ($job instanceof Label) {
+            $instructions[] = $this->compileLabel($job);
         }
 
-        $instructions[] = $this->language->compilePrint($copies);
+        if ($job instanceof Batch) {
+            $instructions[] = $this->compileBatch($job);
+        }
 
         $payload = \array_reduce($instructions, static function ($carry, $item) {
             return $item instanceof \Generator
@@ -53,5 +53,25 @@ final class Compiler
         }, []);
 
         return \implode($payload);
+    }
+
+    private function compileLabel(Label $label): iterable
+    {
+        yield from $this->language->compileDeclaration($label);
+
+        foreach ($label->getCommands(\get_class($this->language)) as $command) {
+            if ($this->language->isSupport($command)) {
+                yield from $this->language->compileCommand($command);
+            }
+        }
+
+        yield from $this->language->compilePrint($label->getCopies());
+    }
+
+    private function compileBatch(Batch $batch): iterable
+    {
+        foreach ($batch->getLabels() as $label) {
+            yield from $this->compileLabel($label);
+        }
     }
 }

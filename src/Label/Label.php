@@ -26,6 +26,9 @@ final class Label implements LabelContract
 
     private $commands = [];
 
+    /** @var int */
+    private $copies = 1;
+
     /** @var Charset|null */
     private $charset;
 
@@ -65,6 +68,18 @@ final class Label implements LabelContract
         $this->charset = $value;
 
         return $this;
+    }
+
+    public function copies(int $copies)
+    {
+        $this->copies = $copies;
+
+        return $this;
+    }
+
+    public function getCopies(): int
+    {
+        return $this->copies;
     }
 
     public function getCharset(): ?Charset
