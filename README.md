@@ -64,17 +64,16 @@ use PhpAidc\LabelPrinter\Label\Label;
 use PhpAidc\LabelPrinter\Label\Element;
 use PhpAidc\LabelPrinter\Connector\NetworkConnector;
 
-$printer = new Printer(new NetworkConnector('192.168.x.x'));
-
 $label = Label::create(Unit::MM(), 43, 25)
     ->charset(Charset::UTF8())
     ->add(Element::textBlock(168, 95, 'Hello!', 'Univers', 8)->box(338, 100, 0)->anchor(Anchor::CENTER()))
-    ->add(Element::barcode(10, 10, '123456', 'CODE93')->height(60));
+    ->add(Element::barcode(10, 10, '123456', 'CODE93')->height(60))
+;
 
-$printer->print($label);
+(new Printer(new NetworkConnector('192.168.x.x')))->print($label);
 ```
 
-##### Add elements for a specific language
+##### Add elements only for a specific language
 ```php
 use PhpAidc\LabelPrinter\Label\Label;
 use PhpAidc\LabelPrinter\Label\Element;
@@ -82,12 +81,28 @@ use PhpAidc\LabelPrinter\Language\Tspl;
 use PhpAidc\LabelPrinter\Language\Fingerprint;
 
 $label = Label::create()
-    ->when(Fingerprint::class, static function (Label $label) {
+    ->for(Fingerprint::class, static function (Label $label) {
         $label->add(Element::textLine(168, 95, 'Hello!', 'Univers', 8));
     })
-    ->when(Tspl::class, static function (Label $label) {
+    ->for(Tspl::class, static function (Label $label) {
         $label->add(Element::textLine(10, 10, 'Hello!', 'ROMAN.TTF', 8));
-    });
+    })
+;
+```
+
+##### Add elements if some value is truthy
+```php
+use PhpAidc\LabelPrinter\Label\Label;
+use PhpAidc\LabelPrinter\Label\Element;
+
+$text = '';
+
+$label = Label::create()
+    ->when($text, static function (Label $label, $text) {
+        // will not be added until the $text is empty
+        $label->add(Element::textLine(168, 95, $text, 'Univers', 8));
+    })
+;
 ```
 
 ##### Print images
@@ -98,21 +113,21 @@ use PhpAidc\LabelPrinter\Language\Tspl;
 use PhpAidc\LabelPrinter\Language\Fingerprint;
 
 $image = new \Imagick('gift.svg');
-$image->scaleImage(100, 100);
 
 $label = Label::create()
-    ->when(Fingerprint::class, static function (Label $label) {
+    ->for(Fingerprint::class, static function (Label $label) {
         // from printer's memory — png, bmp, pcx
         $label->add(Element::intImage(10, 10, 'GLOBE.1'));
         // from filesystem
         $label->add(Element::extImage(10, 10, \realpath('alien.png')));
     })
-    ->when(Tspl::class, static function (Label $label) {
+    ->for(Tspl::class, static function (Label $label) {
         // from printer's memory — bmp, pcx
         $label->add(Element::intImage(10, 10, 'ALIEN.BMP'));
     })
     // from filesystem via Imagick — any supported types
-    ->add(Element::bitmap(50, 10, $image));
+    ->add(Element::bitmap(50, 10, $image))
+;
 ```
 
 ##### Print text with emulation
@@ -122,7 +137,8 @@ use PhpAidc\LabelPrinter\Label\Element;
 
 $label = Label::create()
     ->add(Element::textLine(10, 10, 'Hello!', '/path/to/font/roboto.ttf', 20)->emulate())
-    ->add(Element::textBlock(100, 10, 'Hello again!', '/path/to/font/roboto.ttf', 20)->box(300, 20)->emulate());
+    ->add(Element::textBlock(100, 10, 'Hello again!', '/path/to/font/roboto.ttf', 20)->box(300, 20)->emulate())
+;
 ```
 Text will be drawn with Imagick and printed as bitmap.
 
