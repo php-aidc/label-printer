@@ -130,9 +130,9 @@ final class Label implements LabelContract
         return $this;
     }
 
-    public function when(string $language, \Closure $closure)
+    public function for(string $language, callable $callback)
     {
-        $this->commands[] = new Condition($language, $closure);
+        $this->commands[] = new Condition($language, $callback);
 
         return $this;
     }

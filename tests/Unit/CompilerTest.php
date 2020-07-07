@@ -36,10 +36,10 @@ class CompilerTest extends TestCase
     public function testConditionalCompilation(): void
     {
         $label = Label::create()
-            ->when(LanguageA::class, static function (Label $label) {
+            ->for(LanguageA::class, static function (Label $label) {
                 $label->add(Element::raw(''));
             })
-            ->when(LanguageB::class, static function (Label $label) {
+            ->for(LanguageB::class, static function (Label $label) {
                 $label->add(Element::raw(''));
             });
 

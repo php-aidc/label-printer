@@ -14,18 +14,20 @@ declare(strict_types=1);
 
 namespace PhpAidc\LabelPrinter\Label;
 
+use PhpAidc\LabelPrinter\Contract\Label as LabelContract;
+
 final class Condition
 {
     /** @var string */
     private $language;
 
-    /** @var \Closure */
-    private $closure;
+    /** @var callable */
+    private $callback;
 
-    public function __construct(string $language, \Closure $closure)
+    public function __construct(string $language, callable $callback)
     {
         $this->language = $language;
-        $this->closure = $closure;
+        $this->callback = $callback;
     }
 
     public function isMatch(string $language): bool
@@ -33,9 +35,9 @@ final class Condition
         return $this->language === $language;
     }
 
-    public function call(\PhpAidc\LabelPrinter\Contract\Label $label): iterable
+    public function call(LabelContract $label): iterable
     {
-        \call_user_func($this->closure, $label);
+        \call_user_func($this->callback, $label);
 
         return $label->getCommands($this->language);
     }
