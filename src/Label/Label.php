@@ -145,4 +145,19 @@ final class Label implements LabelContract
 
         return $this;
     }
+
+    /**
+     * Apply the callback if the value is truthy.
+     *
+     * @param  mixed     $value
+     * @param  callable  $callback
+     *
+     * @return $this
+     */
+    public function when($value, callable $callback)
+    {
+        $this->commands[] = new BooleanCondition($value, $callback);
+
+        return $this;
+    }
 }
