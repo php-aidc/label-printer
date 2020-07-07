@@ -70,7 +70,7 @@ final class Compiler
 
     private function compileBatch(Batch $batch): iterable
     {
-        foreach ($batch->getLabels() as $label) {
+        foreach ($batch as $label) {
             yield from $this->compileLabel($label);
         }
     }

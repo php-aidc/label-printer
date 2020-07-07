@@ -17,7 +17,7 @@ namespace PhpAidc\LabelPrinter\Label;
 use PhpAidc\LabelPrinter\Contract\Job;
 use PhpAidc\LabelPrinter\Contract\Label as LabelContract;
 
-final class Batch implements Job
+final class Batch implements Job, \IteratorAggregate
 {
     private $labels = [];
 
@@ -28,11 +28,8 @@ final class Batch implements Job
         return $this;
     }
 
-    /**
-     * @return LabelContract[]
-     */
-    public function getLabels()
+    public function getIterator()
     {
-        return $this->labels;
+        return new \ArrayIterator($this->labels);
     }
 }
