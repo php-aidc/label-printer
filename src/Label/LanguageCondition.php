@@ -14,9 +14,10 @@ declare(strict_types=1);
 
 namespace PhpAidc\LabelPrinter\Label;
 
+use PhpAidc\LabelPrinter\Contract\Condition;
 use PhpAidc\LabelPrinter\Contract\Label as LabelContract;
 
-final class Condition
+final class LanguageCondition implements Condition
 {
     /** @var string */
     private $language;
@@ -35,10 +36,10 @@ final class Condition
         return $this->language === $language;
     }
 
-    public function call(LabelContract $label): iterable
+    public function apply(LabelContract $label): LabelContract
     {
         \call_user_func($this->callback, $label);
 
-        return $label->getCommands($this->language);
+        return $label;
     }
 }

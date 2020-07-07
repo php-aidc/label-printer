@@ -18,14 +18,12 @@ use PhpAidc\LabelPrinter\Enum\Unit;
 use PhpAidc\LabelPrinter\Enum\Charset;
 use PhpAidc\LabelPrinter\Enum\Direction;
 use PhpAidc\LabelPrinter\Contract\Command;
+use PhpAidc\LabelPrinter\Contract\Condition;
 use PhpAidc\LabelPrinter\Contract\Label as LabelContract;
 
 final class Label implements LabelContract
 {
     private $media;
-
-    /** @var Command[] */
-    private $commands = [];
 
     /** @var int */
     private $copies = 1;
@@ -35,6 +33,9 @@ final class Label implements LabelContract
 
     /** @var Direction|null */
     private $direction;
+
+    /** @var Command[]|Condition[] */
+    private $commands = [];
 
     public static function create(?Unit $unit = null, ?float $width = null, ?float $height = null): self
     {
@@ -130,9 +131,17 @@ final class Label implements LabelContract
         return $this;
     }
 
+    /**
+     * Apply the callback only if the languages match.
+     *
+     * @param  string    $language
+     * @param  callable  $callback
+     *
+     * @return $this
+     */
     public function for(string $language, callable $callback)
     {
-        $this->commands[] = new Condition($language, $callback);
+        $this->commands[] = new LanguageCondition($language, $callback);
 
         return $this;
     }
