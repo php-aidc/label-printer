@@ -35,7 +35,7 @@ final class Label implements LabelContract
     private $direction;
 
     /** @var Command[]|Condition[] */
-    private $commands = [];
+    private $statements = [];
 
     public static function create(?Unit $unit = null, ?float $width = null, ?float $height = null): self
     {
@@ -53,7 +53,7 @@ final class Label implements LabelContract
 
     public function add(Command $command)
     {
-        $this->commands[] = $command;
+        $this->statements[] = $command;
 
         return $this;
     }
@@ -109,24 +109,9 @@ final class Label implements LabelContract
         return $this->media['height'] ?? null;
     }
 
-    public function getCommands(string $language): iterable
-    {
-        foreach ($this->commands as $command) {
-            if ($command instanceof Condition) {
-                if ($command->isMatch($language)) {
-                    foreach ($command->call((clone $this)->erase()) as $item) {
-                        yield $item;
-                    }
-                }
-            } else {
-                yield $command;
-            }
-        }
-    }
-
     public function erase()
     {
-        $this->commands = [];
+        $this->statements = [];
 
         return $this;
     }
@@ -141,7 +126,7 @@ final class Label implements LabelContract
      */
     public function for(string $language, callable $callback)
     {
-        $this->commands[] = new LanguageCondition($language, $callback);
+        $this->statements[] = new LanguageCondition($language, $callback);
 
         return $this;
     }
@@ -156,8 +141,13 @@ final class Label implements LabelContract
      */
     public function when($value, callable $callback)
     {
-        $this->commands[] = new BooleanCondition($value, $callback);
+        $this->statements[] = new BooleanCondition($value, $callback);
 
         return $this;
+    }
+
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->statements);
     }
 }

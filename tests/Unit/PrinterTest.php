@@ -27,13 +27,21 @@ use PHPUnit\Framework\TestCase;
 
 class PrinterTest extends TestCase
 {
-    public function testPrint(): void
+    public function testPrintWithCompiler(): void
     {
         $printer = new Printer($connector = new ArrayConnector(), Compiler::create(new LanguageC()));
 
         $printer->print(Label::create()->add(Element::raw('TEST')));
 
-        $this->assertEquals('CSIZE|CTEST|CPRINT|', \implode('', $connector->get()));
+        $this->assertEquals('CSIZE|CTEST|CPRINT1|', \implode('', $connector->get()));
+    }
+
+    public function testPrintWithoutCompiler(): void
+    {
+        $this->expectException(\DomainException::class);
+        $printer = new Printer($connector = new ArrayConnector());
+
+        $printer->print(Label::create()->add(Element::raw('TEST')));
     }
 
     public function testSend(): void
@@ -69,7 +77,7 @@ class LanguageC implements Language
 
     public function compilePrint(int $copies): iterable
     {
-        yield 'CPRINT|';
+        yield "CPRINT{$copies}|";
     }
 }
 

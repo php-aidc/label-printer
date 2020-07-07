@@ -16,7 +16,7 @@ namespace PhpAidc\LabelPrinter\Contract;
 
 use PhpAidc\LabelPrinter\Enum\Charset;
 
-interface Label extends Job
+interface Label extends Job, \IteratorAggregate
 {
     public function add(Command $command);
 
@@ -25,6 +25,4 @@ interface Label extends Job
     public function getCharset(): ?Charset;
 
     public function getCopies(): int;
-
-    public function getCommands(string $language): iterable;
 }

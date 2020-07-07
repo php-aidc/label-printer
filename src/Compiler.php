@@ -17,7 +17,10 @@ namespace PhpAidc\LabelPrinter;
 use PhpAidc\LabelPrinter\Label\Batch;
 use PhpAidc\LabelPrinter\Contract\Job;
 use PhpAidc\LabelPrinter\Contract\Label;
+use PhpAidc\LabelPrinter\Contract\Command;
 use PhpAidc\LabelPrinter\Contract\Language;
+use PhpAidc\LabelPrinter\Label\BooleanCondition;
+use PhpAidc\LabelPrinter\Label\LanguageCondition;
 
 final class Compiler
 {
@@ -55,23 +58,47 @@ final class Compiler
         return \implode($payload);
     }
 
-    private function compileLabel(Label $label): iterable
+    private function compileBatch(Batch $batch): \Generator
+    {
+        foreach ($batch as $label) {
+            yield from $this->compileLabel($label);
+        }
+    }
+
+    private function compileLabel(Label $label): \Generator
     {
         yield from $this->language->compileDeclaration($label);
 
-        foreach ($label->getCommands(\get_class($this->language)) as $command) {
-            if ($this->language->isSupport($command)) {
-                yield from $this->language->compileCommand($command);
-            }
-        }
+        yield from $this->compileStatements($label);
 
         yield from $this->language->compilePrint($label->getCopies());
     }
 
-    private function compileBatch(Batch $batch): iterable
+    private function compileStatements(Label $label): \Generator
     {
-        foreach ($batch as $label) {
-            yield from $this->compileLabel($label);
+        foreach ($label as $statement) {
+            yield from $this->compileStatement($label, $statement);
+        }
+    }
+
+    private function compileStatement(Label $label, $statement): \Generator
+    {
+        if ($statement instanceof LanguageCondition && $statement->isMatch(\get_class($this->language))) {
+            yield from $this->compileStatements($statement->apply((clone $label)->erase()));
+
+            return;
+        }
+
+        if ($statement instanceof BooleanCondition && $statement->isTruthy()) {
+            yield from $this->compileStatements($statement->apply((clone $label)->erase()));
+
+            return;
+        }
+
+        if ($statement instanceof Command && $this->language->isSupport($statement)) {
+            yield from $this->language->compileCommand($statement);
+
+            return;
         }
     }
 }
