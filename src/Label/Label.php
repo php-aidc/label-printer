@@ -24,6 +24,7 @@ final class Label implements LabelContract
 {
     private $media;
 
+    /** @var Command[] */
     private $commands = [];
 
     /** @var int */
@@ -56,13 +57,6 @@ final class Label implements LabelContract
         return $this;
     }
 
-    public function direction(Direction $value)
-    {
-        $this->direction = $value;
-
-        return $this;
-    }
-
     public function charset(Charset $value)
     {
         $this->charset = $value;
@@ -77,9 +71,11 @@ final class Label implements LabelContract
         return $this;
     }
 
-    public function getCopies(): int
+    public function direction(Direction $value)
     {
-        return $this->copies;
+        $this->direction = $value;
+
+        return $this;
     }
 
     public function getCharset(): ?Charset
@@ -87,14 +83,19 @@ final class Label implements LabelContract
         return $this->charset;
     }
 
-    public function getMedia(): array
+    public function getCopies(): int
     {
-        return $this->media;
+        return $this->copies;
     }
 
     public function getDirection(): ?Direction
     {
         return $this->direction;
+    }
+
+    public function getMedia(): array
+    {
+        return $this->media;
     }
 
     public function getWidth(): ?float
