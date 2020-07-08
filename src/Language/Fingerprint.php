@@ -76,7 +76,7 @@ final class Fingerprint implements Language
 
             $handler = new $class();
 
-            foreach ((new $handler)->translate($command) as $instruction) {
+            foreach ((new $handler())->translate($command) as $instruction) {
                 yield $instruction.self::EOC;
             }
         } else {

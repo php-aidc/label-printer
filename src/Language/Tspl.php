@@ -68,7 +68,7 @@ final class Tspl implements Language
         if ($this->isSupport($command)) {
             $handler = self::HANDLERS[\get_class($command)];
 
-            foreach ((new $handler)->translate($command) as $instruction) {
+            foreach ((new $handler())->translate($command) as $instruction) {
                 yield $instruction.self::EOC;
             }
         } else {

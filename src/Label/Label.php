@@ -119,7 +119,7 @@ final class Label implements LabelContract
     }
 
     /**
-     * Apply the callback only if the languages match.
+     * Apply the callback if the languages match.
      *
      * @param  string    $language
      * @param  callable  $callback
