@@ -18,9 +18,9 @@ use PhpAidc\LabelPrinter\Enum\Charset;
 
 interface Label extends Job, \IteratorAggregate
 {
-    public function getMedia(): array;
+    public function getCopies(): int;
 
     public function getCharset(): ?Charset;
 
-    public function getCopies(): int;
+    public function getMedia(): Media;
 }

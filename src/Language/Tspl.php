@@ -22,6 +22,7 @@ use PhpAidc\LabelPrinter\Command\TextLine;
 use PhpAidc\LabelPrinter\Command\TextBlock;
 use PhpAidc\LabelPrinter\Command\InternalImage;
 use PhpAidc\LabelPrinter\Contract\Label;
+use PhpAidc\LabelPrinter\Contract\Media;
 use PhpAidc\LabelPrinter\Contract\Command;
 use PhpAidc\LabelPrinter\Contract\Language;
 use PhpAidc\LabelPrinter\Enum\Unit;
@@ -83,20 +84,18 @@ final class Tspl implements Language
         }
     }
 
-    private function translateMedia(array $media): iterable
+    private function translateMedia(Media $media): iterable
     {
-        ['unit' => $unit, 'width' => $width, 'height' => $height] = $media;
-
-        if ($width && $height === null) {
-            yield \sprintf('SIZE %s'.self::EOC, $this->valueWithUnit($width, $unit));
+        if ($media->getWidth() && $media->getHeight() === null) {
+            yield \sprintf('SIZE %s'.self::EOC, $this->valueWithUnit($media->getWidth(), $media->getUnit()));
 
             return;
         }
 
-        if ($width && $height) {
+        if ($media->getWidth() && $media->getHeight()) {
             yield \vsprintf('SIZE %s,%s'.self::EOC, [
-                $this->valueWithUnit($width, $unit),
-                $this->valueWithUnit($height, $unit),
+                $this->valueWithUnit($media->getWidth(), $media->getUnit()),
+                $this->valueWithUnit($media->getHeight(), $media->getUnit()),
             ]);
         }
     }

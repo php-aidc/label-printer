@@ -19,12 +19,11 @@ use PhpAidc\LabelPrinter\Enum\Charset;
 use PhpAidc\LabelPrinter\Enum\Direction;
 use PhpAidc\LabelPrinter\Contract\Command;
 use PhpAidc\LabelPrinter\Contract\Condition;
+use PhpAidc\LabelPrinter\Contract\Media as MediaContract;
 use PhpAidc\LabelPrinter\Contract\Label as LabelContract;
 
 final class Label implements LabelContract
 {
-    private $media;
-
     /** @var int */
     private $copies = 1;
 
@@ -33,6 +32,9 @@ final class Label implements LabelContract
 
     /** @var Direction|null */
     private $direction;
+
+    /** @var Media */
+    private $media;
 
     /** @var Command[]|Condition[] */
     private $statements = [];
@@ -48,7 +50,7 @@ final class Label implements LabelContract
             throw new \InvalidArgumentException();
         }
 
-        $this->media = \compact('unit', 'width', 'height');
+        $this->media = new Media($unit, $width, $height);
     }
 
     public function add(Command $command)
@@ -94,7 +96,7 @@ final class Label implements LabelContract
         return $this->direction;
     }
 
-    public function getMedia(): array
+    public function getMedia(): MediaContract
     {
         return $this->media;
     }

@@ -15,8 +15,9 @@ declare(strict_types=1);
 namespace PhpAidc\LabelPrinter\Label;
 
 use PhpAidc\LabelPrinter\Enum\Unit;
+use PhpAidc\LabelPrinter\Contract\Media as MediaContract;
 
-final class Media
+final class Media implements MediaContract
 {
     /** @var Unit|null */
     private $unit;

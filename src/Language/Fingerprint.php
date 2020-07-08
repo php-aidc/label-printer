@@ -23,6 +23,7 @@ use PhpAidc\LabelPrinter\Command\TextBlock;
 use PhpAidc\LabelPrinter\Command\ExternalImage;
 use PhpAidc\LabelPrinter\Command\InternalImage;
 use PhpAidc\LabelPrinter\Contract\Label;
+use PhpAidc\LabelPrinter\Contract\Media;
 use PhpAidc\LabelPrinter\Contract\Command;
 use PhpAidc\LabelPrinter\Contract\Language;
 use PhpAidc\LabelPrinter\Enum\Unit;
@@ -100,16 +101,14 @@ final class Fingerprint implements Language
         }
     }
 
-    private function translateMedia(array $media): iterable
+    private function translateMedia(Media $media): iterable
     {
-        ['unit' => $unit, 'width' => $width, 'height' => $height] = $media;
-
-        if ($width) {
-            yield \sprintf('SETUP "MEDIA,MEDIA SIZE,WIDTH,%d'.self::EOC, $this->valueToDots($width, $unit));
+        if ($media->getWidth()) {
+            yield \sprintf('SETUP "MEDIA,MEDIA SIZE,WIDTH,%d'.self::EOC, $this->valueToDots($media->getWidth(), $media->getUnit()));
         }
 
-        if ($height) {
-            yield \sprintf('SETUP "MEDIA,MEDIA SIZE,HEIGHT,%d'.self::EOC, $this->valueToDots($height, $unit));
+        if ($media->getHeight()) {
+            yield \sprintf('SETUP "MEDIA,MEDIA SIZE,HEIGHT,%d'.self::EOC, $this->valueToDots($media->getHeight(), $media->getUnit()));
         }
     }
 
