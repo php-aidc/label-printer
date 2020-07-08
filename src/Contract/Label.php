@@ -18,8 +18,6 @@ use PhpAidc\LabelPrinter\Enum\Charset;
 
 interface Label extends Job, \IteratorAggregate
 {
-    public function add(Command $command);
-
     public function getMedia(): array;
 
     public function getCharset(): ?Charset;
