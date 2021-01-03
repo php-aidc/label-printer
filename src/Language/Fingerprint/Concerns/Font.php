@@ -25,7 +25,7 @@ trait Font
         $font = \sprintf('FT "%s"', $command->getFontName());
 
         if ($command->getFontSize()) {
-            $font .= ",".(int) $command->getFontSize();
+            $font .= ','.(int) $command->getFontSize();
         }
 
         yield $font;

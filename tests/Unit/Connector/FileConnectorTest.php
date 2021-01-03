@@ -25,7 +25,7 @@ class FileConnectorTest extends TestCase
 
         $connector->write($data = 'HELLO');
 
-        $this->assertEquals($data, \file_get_contents($file));
+        self::assertEquals($data, \file_get_contents($file));
 
         $connector->close();
 

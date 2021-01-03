@@ -3,8 +3,8 @@
 /**
  * This file is part of PhpAidc LabelPrinter package.
  *
- *  © Appwilio (https://appwilio.com)
- *  © JhaoDa (https://github.com/jhaoda)
+ * © Appwilio (https://appwilio.com)
+ * © JhaoDa (https://github.com/jhaoda)
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -33,7 +33,7 @@ class PrinterTest extends TestCase
 
         $printer->print(Label::create()->add(Element::raw('TEST')));
 
-        $this->assertEquals('CSIZE|CTEST|CPRINT1|', \implode('', $connector->get()));
+        self::assertEquals('CSIZE|CTEST|CPRINT1|', \implode('', $connector->get()));
     }
 
     public function testPrintWithoutCompiler(): void
@@ -50,7 +50,7 @@ class PrinterTest extends TestCase
 
         $printer->send('HELLO');
 
-        $this->assertEquals('HELLO', \implode('', $connector->get()));
+        self::assertEquals('HELLO', \implode('', $connector->get()));
     }
 }
 

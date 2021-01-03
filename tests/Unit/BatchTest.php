@@ -30,7 +30,7 @@ class BatchTest extends TestCase
         $batch->add(clone $label);
         $batch->add(clone $label);
 
-        $this->assertEquals(2, \iterator_count($batch));
-        $this->assertInstanceOf(Label::class, \iterator_to_array($batch)[0]);
+        self::assertEquals(2, \iterator_count($batch));
+        self::assertInstanceOf(Label::class, \iterator_to_array($batch)[0]);
     }
 }

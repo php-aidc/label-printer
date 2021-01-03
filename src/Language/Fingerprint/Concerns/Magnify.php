@@ -31,7 +31,7 @@ trait Magnify
     {
         /** @var Command|Magnifiable $command */
         if ($command->getMagnificationWidth() > 1 || $command->getMagnificationHeight() > 1) {
-            yield \sprintf('MAG %d,%d', 1, 1);
+            yield 'MAG 1, 1';
         }
     }
 }

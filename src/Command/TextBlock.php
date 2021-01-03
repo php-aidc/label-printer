@@ -14,11 +14,11 @@ declare(strict_types=1);
 
 namespace PhpAidc\LabelPrinter\Command;
 
-use PhpAidc\LabelPrinter\Command\Concerns\Invertible;
 use PhpAidc\LabelPrinter\Contract\Command;
 use PhpAidc\LabelPrinter\Command\Concerns\Alignable;
 use PhpAidc\LabelPrinter\Command\Concerns\Rotatable;
 use PhpAidc\LabelPrinter\Command\Concerns\FontAware;
+use PhpAidc\LabelPrinter\Command\Concerns\Invertible;
 use PhpAidc\LabelPrinter\Command\Concerns\Magnifiable;
 use PhpAidc\LabelPrinter\Command\Concerns\ImageFallback;
 use PhpAidc\LabelPrinter\Command\Concerns\PositionAware;

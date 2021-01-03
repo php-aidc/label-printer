@@ -28,7 +28,7 @@ final class Batch implements Job, \IteratorAggregate
         return $this;
     }
 
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->labels);
     }

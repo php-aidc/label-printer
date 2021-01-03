@@ -97,7 +97,7 @@ final class Fingerprint implements Language
     private function translateCharset(?Charset $charset): iterable
     {
         if ($charset) {
-            yield \sprintf('NASC "%s"', $charset->getValue()).self::EOC;
+            yield "NASC \"{$charset->getValue()}\"".self::EOC;
         }
     }
 

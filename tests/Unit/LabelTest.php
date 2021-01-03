@@ -34,7 +34,7 @@ class LabelTest extends TestCase
             ->charset(Charset::UTF8())
             ->direction(Direction::BACKWARD());
 
-        $this->assertEquals(Charset::UTF8(), $label->getCharset());
-        $this->assertEquals(Direction::BACKWARD(), $label->getDirection());
+        self::assertEquals(Charset::UTF8(), $label->getCharset());
+        self::assertEquals(Direction::BACKWARD(), $label->getDirection());
     }
 }

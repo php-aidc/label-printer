@@ -30,10 +30,10 @@ class CompilerTest extends TestCase
         $compiler = Compiler::create(new LanguageA());
 
         $label = Label::create()->add(Element::raw(''));
-        $this->assertEquals('ASIZE|ACMD|APRINT1|', $compiler->compile($label));
+        self::assertEquals('ASIZE|ACMD|APRINT1|', $compiler->compile($label));
 
         $label->copies(2);
-        $this->assertEquals('ASIZE|ACMD|APRINT2|', $compiler->compile($label));
+        self::assertEquals('ASIZE|ACMD|APRINT2|', $compiler->compile($label));
     }
 
     public function testCompileBatch(): void
@@ -46,7 +46,7 @@ class CompilerTest extends TestCase
         $batch->add(clone $label);
         $batch->add((clone $label)->copies(2));
 
-        $this->assertEquals('ASIZE|ACMD|APRINT1|ASIZE|ACMD|APRINT2|', $compiler->compile($batch));
+        self::assertEquals('ASIZE|ACMD|APRINT1|ASIZE|ACMD|APRINT2|', $compiler->compile($batch));
     }
 
     public function testLanguageCondition(): void
@@ -59,8 +59,8 @@ class CompilerTest extends TestCase
                 $label->add(Element::raw(''));
             });
 
-        $this->assertEquals('ASIZE|ACMD|APRINT1|', Compiler::create(new LanguageA())->compile($label));
-        $this->assertEquals('BSIZE|BCMD|BPRINT1|', Compiler::create(new LanguageB())->compile($label));
+        self::assertEquals('ASIZE|ACMD|APRINT1|', (new Compiler(new LanguageA()))->compile($label));
+        self::assertEquals('BSIZE|BCMD|BPRINT1|', (new Compiler(new LanguageB()))->compile($label));
     }
 
     public function testBooleanConditionTruthy(): void
@@ -70,7 +70,7 @@ class CompilerTest extends TestCase
                 $label->add(Element::raw(''));
             });
 
-        $this->assertEquals('ASIZE|ACMD|APRINT1|', Compiler::create(new LanguageA())->compile($label));
+        self::assertEquals('ASIZE|ACMD|APRINT1|', (new Compiler(new LanguageA()))->compile($label));
     }
 
     public function testBooleanConditionFalsy(): void
@@ -80,7 +80,7 @@ class CompilerTest extends TestCase
                 $label->add(Element::raw(''));
             });
 
-        $this->assertEquals('ASIZE|APRINT1|', Compiler::create(new LanguageA())->compile($label));
+        self::assertEquals('ASIZE|APRINT1|', (new Compiler(new LanguageA()))->compile($label));
     }
 }
 

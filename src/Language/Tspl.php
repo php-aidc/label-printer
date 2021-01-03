@@ -80,7 +80,7 @@ final class Tspl implements Language
     private function translateCharset(?Charset $charset): iterable
     {
         if ($charset) {
-            yield \sprintf('CODEPAGE %s', $charset->getValue()).self::EOC;
+            yield "CODEPAGE {$charset->getValue()}".self::EOC;
         }
     }
 
