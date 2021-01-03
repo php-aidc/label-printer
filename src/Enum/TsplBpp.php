@@ -19,8 +19,8 @@ namespace PhpAidc\LabelPrinter\Enum;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static MONO()
- * @method static COLOR()
+ * @method static TsplBpp MONO()
+ * @method static TsplBpp COLOR()
  */
 final class TsplBpp extends Enum
 {

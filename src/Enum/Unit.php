@@ -19,9 +19,9 @@ namespace PhpAidc\LabelPrinter\Enum;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static IN()
- * @method static MM()
- * @method static DOT()
+ * @method static Unit IN()  inch
+ * @method static Unit MM()  millimeter
+ * @method static Unit DOT() dot
  */
 final class Unit extends Enum
 {

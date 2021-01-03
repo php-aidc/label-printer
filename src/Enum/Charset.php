@@ -19,9 +19,9 @@ namespace PhpAidc\LabelPrinter\Enum;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static UTF8()
- * @method static W1251()
- * @method static W1252()
+ * @method static Charset UTF8()
+ * @method static Charset W1251()
+ * @method static Charset W1252()
  */
 final class Charset extends Enum
 {

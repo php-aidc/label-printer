@@ -19,8 +19,8 @@ namespace PhpAidc\LabelPrinter\Enum;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static FORWARD()
- * @method static BACKWARD()
+ * @method static Direction FORWARD()
+ * @method static Direction BACKWARD()
  */
 final class Direction extends Enum
 {
