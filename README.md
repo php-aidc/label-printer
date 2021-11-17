@@ -42,7 +42,7 @@ You can of course also manually edit your composer.json file
 
 > Some TSPL2-like printers, such as Atol BP41/Rongta RP410, do not support all TSPL2 features.
 
-##### Read data from printer
+#### Read data from printer
 
 ```php
 use PhpAidc\LabelPrinter\Printer;
@@ -51,10 +51,11 @@ use PhpAidc\LabelPrinter\Connector\NetworkConnector;
 $printer = new Printer(new NetworkConnector('192.168.x.x'));
 
 \var_dump($printer->ask('? VERSION$(0)'));
+
 // "Direct Protocol  10.15.017559   \r\n"
 ```
 
-##### Create and print label
+#### Create and print label
 ```php
 use PhpAidc\LabelPrinter\Enum\Unit;
 use PhpAidc\LabelPrinter\Enum\Anchor;
@@ -62,6 +63,7 @@ use PhpAidc\LabelPrinter\Enum\Charset;
 use PhpAidc\LabelPrinter\Printer;
 use PhpAidc\LabelPrinter\Label\Label;
 use PhpAidc\LabelPrinter\Label\Element;
+use PhpAidc\LabelPrinter\CompilerFactory;
 use PhpAidc\LabelPrinter\Connector\NetworkConnector;
 
 $label = Label::create(Unit::MM(), 43, 25)
@@ -70,10 +72,10 @@ $label = Label::create(Unit::MM(), 43, 25)
     ->add(Element::barcode(10, 10, '123456', 'CODE93')->height(60))
 ;
 
-(new Printer(new NetworkConnector('192.168.x.x')))->print($label);
+(new Printer(new NetworkConnector('192.168.x.x'), CompilerFactory::tspl()))->print($label);
 ```
 
-##### Add elements only for a specific language
+#### Add elements only for a specific language
 ```php
 use PhpAidc\LabelPrinter\Label\Label;
 use PhpAidc\LabelPrinter\Label\Element;
@@ -90,7 +92,7 @@ $label = Label::create()
 ;
 ```
 
-##### Add elements if some value is truthy
+#### Add elements if some value is truthy
 ```php
 use PhpAidc\LabelPrinter\Label\Label;
 use PhpAidc\LabelPrinter\Label\Element;
@@ -105,7 +107,7 @@ $label = Label::create()
 ;
 ```
 
-##### Print images
+#### Print images
 ```php
 use PhpAidc\LabelPrinter\Label\Label;
 use PhpAidc\LabelPrinter\Label\Element;
@@ -130,7 +132,7 @@ $label = Label::create()
 ;
 ```
 
-##### Print text with emulation
+#### Print text with emulation
 ```php
 use PhpAidc\LabelPrinter\Label\Label;
 use PhpAidc\LabelPrinter\Label\Element;
@@ -142,7 +144,7 @@ $label = Label::create()
 ```
 Text will be drawn with Imagick and printed as bitmap.
 
-##### Specify the number of copies
+#### Specify the number of copies
 ```php
 use PhpAidc\LabelPrinter\Label\Label;
 use PhpAidc\LabelPrinter\Label\Element;
@@ -153,12 +155,13 @@ $label = Label::create()
 ;
 ```
 
-##### Batch printing
+#### Batch printing
 ```php
 use PhpAidc\LabelPrinter\Printer;
 use PhpAidc\LabelPrinter\Label\Batch;
 use PhpAidc\LabelPrinter\Label\Label;
 use PhpAidc\LabelPrinter\Label\Element;
+use PhpAidc\LabelPrinter\CompilerFactory;
 use PhpAidc\LabelPrinter\Connector\NetworkConnector;
 
 $batch = (new Batch())
@@ -166,7 +169,7 @@ $batch = (new Batch())
     ->add(Label::create()->add(Element::textLine(168, 95, 'Bye!', 'Univers', 8)))
 ;
 
-(new Printer(new NetworkConnector('192.168.x.x')))->print($label);
+(new Printer(new NetworkConnector('192.168.x.x'), CompilerFactory::fingerprint()))->print($label);
 ```
 
 ## License

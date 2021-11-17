@@ -34,7 +34,9 @@ final class Printer
     public function print(Job $job): void
     {
         if ($this->compiler === null) {
-            throw new \DomainException();
+            throw new \DomainException(
+                'The Printer object should be constructed with Compiler instance for printing.'
+            );
         }
 
         $this->connector->write($this->compiler->compile($job));
