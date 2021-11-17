@@ -33,7 +33,7 @@ You can of course also manually edit your composer.json file
 ```json
 {
     "require": {
-       "php-aidc/label-printer": "v0.1"
+       "php-aidc/label-printer": "v0.4"
     }
 }
 ```
