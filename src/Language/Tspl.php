@@ -21,6 +21,7 @@ use PhpAidc\LabelPrinter\Command\Barcode;
 use PhpAidc\LabelPrinter\Command\TextLine;
 use PhpAidc\LabelPrinter\Command\TextBlock;
 use PhpAidc\LabelPrinter\Command\InternalImage;
+use PhpAidc\LabelPrinter\Command\QRCode;
 use PhpAidc\LabelPrinter\Contract\Label;
 use PhpAidc\LabelPrinter\Contract\Media;
 use PhpAidc\LabelPrinter\Contract\Command;
@@ -38,6 +39,7 @@ final class Tspl implements Language
         Clear::class         => Handlers\TsplClear::class,
         Bitmap::class        => Handlers\TsplBitmap::class,
         Barcode::class       => Handlers\TsplBarcode::class,
+        QRCode::class        => Handlers\TsplQRCode::class,
         TextLine::class      => Handlers\TsplTextLine::class,
         TextBlock::class     => Handlers\TsplTextBlock::class,
         InternalImage::class => Handlers\TsplInternalImage::class,
