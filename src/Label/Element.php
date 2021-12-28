@@ -18,6 +18,7 @@ use PhpAidc\LabelPrinter\Command\Raw;
 use PhpAidc\LabelPrinter\Command\Clear;
 use PhpAidc\LabelPrinter\Command\Bitmap;
 use PhpAidc\LabelPrinter\Command\Barcode;
+use PhpAidc\LabelPrinter\Command\QRCode;
 use PhpAidc\LabelPrinter\Command\TextLine;
 use PhpAidc\LabelPrinter\Command\TextBlock;
 use PhpAidc\LabelPrinter\Command\ExternalImage;
@@ -96,5 +97,19 @@ final class Element
     public static function textBlock(int $x, int $y, string $text, string $font, float $size = null): TextBlock
     {
         return new TextBlock(...\func_get_args());
+    }
+
+    /**
+     * Print a qr code in the label
+     * @param int       $x
+     * @param int       $y
+     * @param string    $data
+     * @param string    $eccLevel   Error correction recovery level (L: 7% / M: 15% / Q: 25% / H: 30%)
+     * @param int       $cellWidth  Width of a single cell (1~N)
+     * @param string    $mode       Encode mode (A: auto / M: manual)
+     */
+    public static function qrcode(int $x, int $y, string $data, string $eccLevel, int $cellWidth, string $mode): QRCode
+    {
+        return new QRCode(...\func_get_args());
     }
 }

@@ -56,7 +56,7 @@ final class TsplTextBlock
 
         $specifier = \is_float($size) ? '%.2F' : '%d';
 
-        $format = "%d,%d,%d,%d,\"%s\",%d,{$specifier},{$specifier},0,%d,0,\"%s\"";
+        $format = "%d,%d,%d,%d,\"%s\",%d,{$specifier},{$specifier},%d,%d,\"%s\"";
 
         yield \vsprintf('BLOCK '.$format, [
             $command->getX(),
